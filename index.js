@@ -4,10 +4,10 @@ const { v4: uuidv4 } = require('uuid')
 const app = express()
 
 const notFound = require('./middleware/404').notFound
-const logger = require('./middleware/logger').logger
+const requestLogger = require('./middleware/requestLogger').requestLogger
 
 app.use(express.json()) // De esta forma se puede leer el body del post
-app.use(logger)
+app.use(requestLogger)
 const todoList = [
   {
     id: uuidv4(),
