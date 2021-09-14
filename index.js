@@ -9,7 +9,7 @@ const errorHandler = require('./middleware/errorHandler').errorHandler
 
 app.use(express.json()) // De esta forma se puede leer el body del post
 app.use(requestLogger)
-const todoList = [
+let todoList = [
   {
     id: uuidv4(),
     content: 'Sacar al perro'
@@ -47,6 +47,12 @@ app.post('/api/todo', (req, res) => {
     todoList.push(newTodo)
     res.status(201).json(todoList)
   }
+})
+
+app.delete('/api/todo/:id', (req, res) => {
+  const id = req.params.id
+  todoList = todoList.filter(todo => todo.id !== id)
+  res.status(204).end()
 })
 
 app.use(notFound)
