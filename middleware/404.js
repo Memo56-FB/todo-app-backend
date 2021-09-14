@@ -1,4 +1,4 @@
-const notFound = (req, res, next) => {
-  res.status(404).json({ error: 'page not found' })
+const notFound = (req, res) => {
+  res.status(404).json({ error: 'unknown endpoint' })
 }
 module.exports = { notFound }

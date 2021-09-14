@@ -1,12 +1,8 @@
-const info = (logger) => {
-  console.log(logger)
+const info = (...params) => {
+  console.log(...params)
+}
+const error = (...params) => {
+  console.error(...params)
 }
 
-const logger = (req, res, next) => {
-  info(req.method)
-  info(req.path)
-  info(req.body)
-  next()
-}
-
-module.exports = { logger }
+module.exports = { info, error }
