@@ -5,6 +5,7 @@ const app = express()
 
 const notFound = require('./middleware/404').notFound
 const requestLogger = require('./middleware/requestLogger').requestLogger
+const errorHandler = require('./middleware/errorHandler').errorHandler
 
 app.use(express.json()) // De esta forma se puede leer el body del post
 app.use(requestLogger)
@@ -49,6 +50,7 @@ app.post('/api/todo', (req, res) => {
 })
 
 app.use(notFound)
+app.use(errorHandler)
 
 const PORT = 3001
 app.listen(PORT)
