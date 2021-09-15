@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-		"start": "node index.js",
+    "start": "node index.js",
     "dev": "nodemon index.js",
     "eslint": "eslint ."
   },
@@ -20,7 +20,8 @@
   },
   "dependencies": {
     "cors": "2.8.5",
+    "dotenv": "^10.0.0",
     "express": "4.17.1",
-    "uuid": "8.3.2"
+    "mongoose": "^5.13.9"
   }
 }
