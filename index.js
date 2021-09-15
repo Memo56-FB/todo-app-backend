@@ -47,8 +47,8 @@ app.post('/api/todo', (req, res) => {
       id: uuidv4(),
       content: body.content
     }
-    todoList.push(newTodo)
-    res.status(201).json(todoList)
+    todoList = todoList.concat(newTodo)
+    res.status(201).json(newTodo)
   }
 })
 
