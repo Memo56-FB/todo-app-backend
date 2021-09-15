@@ -1,12 +1,15 @@
-// const http = require('http')
+const http = require('http')
 const express = require('express')
 const { v4: uuidv4 } = require('uuid')
 const app = express()
+const cors = require('cors')
 
 const notFound = require('./middleware/404').notFound
 const requestLogger = require('./middleware/requestLogger').requestLogger
 const errorHandler = require('./middleware/errorHandler').errorHandler
 
+http.createServer(app)
+app.use(cors())
 app.use(express.json()) // De esta forma se puede leer el body del post
 app.use(requestLogger)
 let todoList = [
