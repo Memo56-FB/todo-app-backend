@@ -1,6 +1,6 @@
 const http = require('http')
 const express = require('express')
-const { v4: uuidv4 } = require('uuid')
+
 const app = express()
 const cors = require('cors')
 
@@ -14,15 +14,12 @@ app.use(express.json()) // De esta forma se puede leer el body del post
 app.use(requestLogger)
 let todoList = [
   {
-    id: uuidv4(),
     content: 'Sacar al perro'
   },
   {
-    id: uuidv4(),
     content: 'Cortar la leña'
   },
   {
-    id: uuidv4(),
     content: 'Hacer ejercio'
   }
 ]
@@ -44,7 +41,6 @@ app.post('/api/todo', (req, res) => {
     res.status(400).json({ error: 'content missing' })
   } else {
     const newTodo = {
-      id: uuidv4(),
       content: body.content
     }
     todoList = todoList.concat(newTodo)
