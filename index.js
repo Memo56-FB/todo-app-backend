@@ -15,8 +15,10 @@ app.use(cors())
 app.use(express.json()) // De esta forma se puede leer el body del post
 app.use(requestLogger)
 
-app.get('/api/todo', (req, res) => {
-  Todo.find({}).then(todo => res.json(todo))
+app.get('/api/todo', (req, res, next) => {
+  Todo.find({})
+    .then(todo => res.json(todo))
+    .catch(error => next(error))
 })
 app.get('/api/todo/:id', (req, res, next) => {
   const id = req.params.id
@@ -25,7 +27,7 @@ app.get('/api/todo/:id', (req, res, next) => {
     .catch(error => next(error))
 })
 
-app.post('/api/todo', (req, res) => {
+app.post('/api/todo', (req, res, next) => {
   const body = req.body
   if (!body || !body.content) {
     res.status(400).json({ error: 'content missing' })
@@ -35,6 +37,7 @@ app.post('/api/todo', (req, res) => {
     })
     newTodo.save()
       .then(savedTodo => res.status(201).json(savedTodo))
+      .catch(error => next(error))
   }
 })
 
