@@ -1,8 +1,9 @@
-const error = require('./logger').error
-const errorHandler = (err, req, res, next) => {
-  error(err)
-
-  next(err)
+const logger = require('./logger')
+const errorHandler = (error, request, response, next) => {
+  logger.error('error name:', error.name)
+  if (error.name === 'CastError') {
+    return response.status(400).json({ error: 'malformatted id' })
+  }
+  next(error)
 }
-
-module.exports = { errorHandler }
+module.exports = errorHandler
