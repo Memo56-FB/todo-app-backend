@@ -1,38 +1,28 @@
 const http = require('http')
 const express = require('express')
+require('./mongo')
 
+const { Todo } = require('./models/todoSchema')
 const app = express()
 const cors = require('cors')
 
 const notFound = require('./middleware/404').notFound
 const requestLogger = require('./middleware/requestLogger').requestLogger
-const errorHandler = require('./middleware/errorHandler').errorHandler
+const errorHandler = require('./middleware/errorHandler')
 
 http.createServer(app)
 app.use(cors())
 app.use(express.json()) // De esta forma se puede leer el body del post
 app.use(requestLogger)
-let todoList = [
-  {
-    content: 'Sacar al perro'
-  },
-  {
-    content: 'Cortar la leña'
-  },
-  {
-    content: 'Hacer ejercio'
-  }
-]
 
 app.get('/api/todo', (req, res) => {
-  res.json(todoList)
+  Todo.find({}).then(todo => res.json(todo))
 })
-app.get('/api/todo/:id', (req, res) => {
+app.get('/api/todo/:id', (req, res, next) => {
   const id = req.params.id
-  const todo = todoList.find(todo => todo.id === id)
-  todo
-    ? res.status(200).send(todo)
-    : res.status(404).json({ error: 'malformatted id' })
+  Todo.findById(id)
+    .then(todo => res.status(200).send(todo))
+    .catch(error => next(error))
 })
 
 app.post('/api/todo', (req, res) => {
@@ -40,22 +30,23 @@ app.post('/api/todo', (req, res) => {
   if (!body || !body.content) {
     res.status(400).json({ error: 'content missing' })
   } else {
-    const newTodo = {
+    const newTodo = new Todo({
       content: body.content
-    }
-    todoList = todoList.concat(newTodo)
-    res.status(201).json(newTodo)
+    })
+    newTodo.save()
+      .then(savedTodo => res.status(201).json(savedTodo))
   }
 })
 
-app.delete('/api/todo/:id', (req, res) => {
+app.delete('/api/todo/:id', (req, res, next) => {
   const id = req.params.id
-  todoList = todoList.filter(todo => todo.id !== id)
-  res.status(204).end()
+  Todo.findByIdAndRemove(id)
+    .then(result => res.status(204).end())
+    .catch(error => next(error))
 })
 
-app.use(notFound)
 app.use(errorHandler)
+app.use(notFound)
 
 const PORT = process.env.PORT || 3001
 app.listen(PORT)
