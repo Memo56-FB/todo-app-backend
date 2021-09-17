@@ -47,6 +47,16 @@ app.delete('/api/todo/:id', (req, res, next) => {
     .then(result => res.status(204).end())
     .catch(error => next(error))
 })
+app.put('/api/todo/:id', (req, res, next) => {
+  const id = req.params.id
+  const body = req.body
+  const todo = {
+    content: body.content
+  }
+  Todo.findByIdAndUpdate(id, todo, { new: true })
+    .then(result => res.status(200).json(result))
+    .catch(error => next(error))
+})
 
 app.use(errorHandler)
 app.use(notFound)
