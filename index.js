@@ -1,6 +1,8 @@
 const http = require('http')
 const express = require('express')
 require('./mongo')
+const Sentry = require('@sentry/node')
+const Tracing = require('@sentry/tracing')
 
 const { Todo } = require('./models/todoSchema')
 const app = express()
@@ -14,6 +16,24 @@ http.createServer(app)
 app.use(cors())
 app.use(express.json()) // De esta forma se puede leer el body del post
 app.use(requestLogger)
+
+app.use(Sentry.Handlers.requestHandler())
+app.use(Sentry.Handlers.tracingHandler())
+
+Sentry.init({
+  dsn: 'https://10d3dba6349642a7be692adf6b84801a@o1004045.ingest.sentry.io/5965013',
+  integrations: [
+    // enable HTTP calls tracing
+    new Sentry.Integrations.Http({ tracing: true }),
+    // enable Express.js middleware tracing
+    new Tracing.Integrations.Express({ app })
+  ],
+
+  // Set tracesSampleRate to 1.0 to capture 100%
+  // of transactions for performance monitoring.
+  // We recommend adjusting this value in production
+  tracesSampleRate: 1.0
+})
 
 app.get('/api/todo', (req, res, next) => {
   Todo.find({})
@@ -58,6 +78,7 @@ app.put('/api/todo/:id', (req, res, next) => {
     .catch(error => next(error))
 })
 
+app.use(Sentry.Handlers.errorHandler())
 app.use(errorHandler)
 app.use(notFound)
 
