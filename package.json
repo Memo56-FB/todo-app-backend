@@ -15,7 +15,8 @@
   "devDependencies": {
     "jest": "27.2.0",
     "nodemon": "2.0.12",
-    "standard": "16.0.3"
+    "standard": "16.0.3",
+    "supertest": "^6.1.6"
   },
   "eslintConfig": {
     "extends": "standard",
