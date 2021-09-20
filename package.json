@@ -4,9 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "dev": "nodemon index.js",
-    "eslint": "eslint ."
+    "start": "cross-env NODE_ENV=production node index.js",
+    "dev": "cross-env NODE_ENV=development nodemon index.js",
+    "eslint": "eslint .",
+    "test": "cross-env NODE_ENV=test jest --verbose"
   },
   "keywords": [],
   "author": "Guillermo Farfan <memo56_fb@hotmail.com>",
@@ -26,6 +27,7 @@
     "@sentry/node": "^6.12.0",
     "@sentry/tracing": "^6.12.0",
     "cors": "2.8.5",
+    "cross-env": "7.0.3",
     "dotenv": "10.0.0",
     "express": "4.17.1",
     "mongoose": "5.13.9"
