@@ -8,7 +8,7 @@ const api = supertest(app)
 
 const initialTodos = [
   {
-    content: 'Nota inicial de test 1'
+    content: 'Sacar a pasear a el perro'
   },
   {
     content: 'Nota inicial de test 2'
@@ -24,11 +24,20 @@ beforeEach(async () => {
   await todo2.save()
 })
 
-test('notes are returned ad json', async () => {
+test('todos are returned ad json', async () => {
   await api
     .get('/api/todo')
     .expect(200)
     .expect('Content-Type', /application\/json/)
+})
+
+test('there are two todos', async () => {
+  const response = await api.get('/api/todo')
+  expect(response.body).toHaveLength(initialTodos.length)
+})
+test('there first todo is about pets', async () => {
+  const response = await api.get('/api/todo')
+  expect(response.body[0].content).toBe('Sacar a pasear a el perro')
 })
 
 afterAll(() => {
