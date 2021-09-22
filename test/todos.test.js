@@ -9,11 +9,10 @@ const api = supertest(app)
 beforeEach(async () => {
   await Todo.deleteMany({})
 
-  const todo1 = new Todo(initialTodos[0])
-  await todo1.save()
-
-  const todo2 = new Todo(initialTodos[1])
-  await todo2.save()
+  for (const todo of initialTodos) {
+    const todoObj = new Todo(todo)
+    await todoObj.save()
+  }
 })
 test('todos are returned ad json', async () => {
   await api
