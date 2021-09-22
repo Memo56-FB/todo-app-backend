@@ -42,6 +42,18 @@ test('post a todo', async () => {
   const response = await api.get('/api/todo')
   expect(response.body).toHaveLength(initialTodos.length + 1)
 })
+test('delete a todo', async () => {
+  const response = await api.get('/api/todo')
+  const todoToDelete = response.body[0].id
+  await api
+    .delete(`/api/todo/${todoToDelete}`)
+    .expect(204)
+})
+test('delete a todo with malformatted id', async () => {
+  await api
+    .delete('/api/todo/1244')
+    .expect(400, { error: 'malformatted id' })// can be a regex too
+})
 afterAll(() => {
   server.close()
   mongoose.connection.close()
