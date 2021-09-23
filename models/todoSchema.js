@@ -3,7 +3,10 @@ const { Schema, model } = require('mongoose')
 const todoSchema = new Schema({
   content: String,
   date: Date,
-  complete: Boolean,
+  complete: {
+    type: Boolean,
+    default: false
+  },
   user: {
     type: Schema.Types.ObjectId,
     ref: 'User'
