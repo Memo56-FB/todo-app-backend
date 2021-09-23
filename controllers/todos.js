@@ -39,8 +39,22 @@ todoRouter.delete('/:id', (req, res, next) => {
 todoRouter.put('/:id', (req, res, next) => {
   const id = req.params.id
   const body = req.body
-  const todo = {
-    content: body.content
+  const { content, complete } = body
+  let todo = null
+
+  if (!content) {
+    todo = {
+      complete
+    }
+  } else if (!complete) {
+    todo = {
+      content
+    }
+  } else {
+    todo = {
+      content,
+      complete
+    }
   }
   Todo.findByIdAndUpdate(id, todo, { new: true })
     .then(result => res.status(200).json(result))
