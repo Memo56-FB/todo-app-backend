@@ -1,6 +1,7 @@
 const http = require('http')
 const express = require('express')
 require('./mongo')
+
 const Sentry = require('@sentry/node')
 const Tracing = require('@sentry/tracing')
 
@@ -11,6 +12,8 @@ const cors = require('cors')
 const notFound = require('./middleware/404').notFound
 const requestLogger = require('./middleware/requestLogger').requestLogger
 const errorHandler = require('./middleware/errorHandler')
+
+const { userRouter } = require('./controllers/users')
 
 http.createServer(app)
 app.use(cors())
@@ -77,6 +80,8 @@ app.put('/api/todo/:id', (req, res, next) => {
     .then(result => res.status(200).json(result))
     .catch(error => next(error))
 })
+
+app.use('/api/users', userRouter)
 
 app.use(Sentry.Handlers.errorHandler())
 app.use(errorHandler)
