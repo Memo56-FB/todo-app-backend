@@ -1,0 +1,5 @@
+GET http://localhost:3001/api/todo
+
+###
+
+GET http://localhost:3001/api/todo/614c98a580fbf510e611b178
