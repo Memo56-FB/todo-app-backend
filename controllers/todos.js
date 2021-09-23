@@ -14,12 +14,15 @@ todoRouter.get('/:id', (req, res, next) => {
 })
 
 todoRouter.post('/', (req, res, next) => {
-  const body = req.body
-  if (!body || !body.content) {
+  const { body } = req
+  const { content, complete } = body
+  if (!body || !content) {
     res.status(400).json({ error: 'content missing' })
   } else {
     const newTodo = new Todo({
-      content: body.content
+      content,
+      date: new Date(),
+      complete
     })
     newTodo.save()
       .then(savedTodo => res.status(201).json(savedTodo))
