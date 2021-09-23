@@ -1,9 +1,13 @@
-const mongoose = require('mongoose')
+const { Schema, model } = require('mongoose')
 
-const todoSchema = new mongoose.Schema({
+const todoSchema = new Schema({
   content: String,
   date: Date,
-  complete: Boolean
+  complete: Boolean,
+  user: {
+    type: Schema.Types.ObjectId,
+    ref: 'User'
+  }
 })
 
 todoSchema.set('toJSON', {
@@ -14,6 +18,6 @@ todoSchema.set('toJSON', {
   }
 })
 
-const Todo = mongoose.model('Todo', todoSchema)
+const Todo = model('Todo', todoSchema)
 
 module.exports = { Todo }
