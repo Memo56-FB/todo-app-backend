@@ -3,6 +3,7 @@ const { server } = require('../index')
 const { Todo } = require('../models/todoSchema')
 const { initialTodos } = require('./helpers')
 const { api } = require('./helpers')
+const { getAllTodos } = require('./helpers')
 
 beforeEach(async () => {
   await Todo.deleteMany({})
@@ -20,12 +21,12 @@ test('todos are returned ad json', async () => {
 })
 
 test('there are two todos', async () => {
-  const response = await api.get('/api/todo')
-  expect(response.body).toHaveLength(initialTodos.length)
+  const body = await getAllTodos()
+  expect(body).toHaveLength(initialTodos.length)
 })
 test('there first todo is about pets', async () => {
-  const response = await api.get('/api/todo')
-  expect(response.body[0].content).toBe('Sacar a pasear a el perro')
+  const body = await getAllTodos()
+  expect(body[0].content).toBe('Sacar a pasear a el perro')
 })
 test('post a todo', async () => {
   const newTodo = {
@@ -36,12 +37,12 @@ test('post a todo', async () => {
     .send(newTodo)
     .expect(201)
     .expect('Content-Type', /application\/json/)
-  const response = await api.get('/api/todo')
-  expect(response.body).toHaveLength(initialTodos.length + 1)
+  const body = await getAllTodos()
+  expect(body).toHaveLength(initialTodos.length + 1)
 })
 test('delete a todo', async () => {
-  const response = await api.get('/api/todo')
-  const todoToDelete = response.body[0].id
+  const body = await getAllTodos()
+  const todoToDelete = body[0].id
   await api
     .delete(`/api/todo/${todoToDelete}`)
     .expect(204)

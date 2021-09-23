@@ -11,7 +11,13 @@ const initialTodos = [
   }
 ]
 
+const getAllTodos = async () => {
+  const response = await api.get('/api/todo')
+  return response.body
+}
+
 module.exports = {
   initialTodos,
-  api
+  api,
+  getAllTodos
 }
