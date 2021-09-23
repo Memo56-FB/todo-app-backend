@@ -1,3 +1,7 @@
+const supertest = require('supertest')
+const { app } = require('../index')
+const api = supertest(app)
+
 const initialTodos = [
   {
     content: 'Sacar a pasear a el perro'
@@ -7,4 +11,7 @@ const initialTodos = [
   }
 ]
 
-module.exports = { initialTodos }
+module.exports = {
+  initialTodos,
+  api
+}

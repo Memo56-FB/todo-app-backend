@@ -1,11 +1,9 @@
-const supertest = require('supertest')
 const mongoose = require('mongoose')
-const { app } = require('../index')
 const { server } = require('../index')
 const { Todo } = require('../models/todoSchema')
 const { initialTodos } = require('./helpers')
+const { api } = require('./helpers')
 
-const api = supertest(app)
 beforeEach(async () => {
   await Todo.deleteMany({})
 
