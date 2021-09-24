@@ -11,6 +11,7 @@ describe('creating a new user', () => {
     const passwordHash = await bcrypt.hash('password', 10)
     const user = new User({
       username: 'memoRoot',
+      name: 'Guillermo',
       passwordHash
     })
     await user.save()
@@ -34,6 +35,23 @@ describe('creating a new user', () => {
 
     const usernames = usersAtEnd.map(user => user.username)
     expect(usernames).toContain(newUser.username)
+  })
+  test('creation fails with proper statuscode and message if username is already taken', async () => {
+    const usersAtStart = await getAllUsers()
+
+    const newUser = {
+      username: 'memoRoot',
+      name: 'Guillermo',
+      password: 'ElPasswordMasSeguro'
+    }
+    await api
+      .post('/api/users')
+      .send(newUser)
+      .expect(400, { error: 'Username already taken' })
+      .expect('Content-Type', /application\/json/)
+
+    const usersAtEnd = getAllUsers()
+    expect(usersAtStart).toHaveLength(usersAtEnd.length)
   })
 })
 
