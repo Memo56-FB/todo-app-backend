@@ -19,7 +19,7 @@ describe('creating a new user', () => {
   test('create a new user successful', async () => {
     const usersAtStart = await getAllUsers()
     const newUser = {
-      username: 'memo56',
+      username: 'memo56784',
       name: 'Guillermo',
       password: 'gato123'
     }
@@ -44,13 +44,14 @@ describe('creating a new user', () => {
       name: 'Guillermo',
       password: 'ElPasswordMasSeguro'
     }
+
     await api
       .post('/api/users')
       .send(newUser)
       .expect(400, { error: 'Username already taken' })
       .expect('Content-Type', /application\/json/)
 
-    const usersAtEnd = getAllUsers()
+    const usersAtEnd = await getAllUsers()
     expect(usersAtStart).toHaveLength(usersAtEnd.length)
   })
 })
