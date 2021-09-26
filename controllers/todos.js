@@ -1,5 +1,6 @@
 const todoRouter = require('express').Router()
 const { Todo } = require('../models/todoSchema')
+const { User } = require('../models/user')
 
 todoRouter.get('/', (req, res, next) => {
   Todo.find({})
@@ -13,20 +14,25 @@ todoRouter.get('/:id', (req, res, next) => {
     .catch(error => next(error))
 })
 
-todoRouter.post('/', (req, res, next) => {
+todoRouter.post('/', async (req, res, next) => {
   const { body } = req
-  const { content, complete } = body
+  const { content, complete, userId } = body
+  const user = await User.findById(userId)
   if (!body || !content) {
     res.status(400).json({ error: 'content missing' })
   } else {
     const newTodo = new Todo({
       content,
       date: new Date(),
-      complete
+      complete,
+      user: user._id
     })
-    newTodo.save()
-      .then(savedTodo => res.status(201).json(savedTodo))
-      .catch(error => next(error))
+    try {
+      const savedTodo = await newTodo.save()
+      res.status(201).json(savedTodo)
+    } catch (error) {
+      next(error)
+    }
   }
 })
 
