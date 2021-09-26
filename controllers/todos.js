@@ -29,6 +29,10 @@ todoRouter.post('/', async (req, res, next) => {
     })
     try {
       const savedTodo = await newTodo.save()
+
+      user.todos = user.todos.concat(savedTodo._id)
+      await user.save()
+
       res.status(201).json(savedTodo)
     } catch (error) {
       next(error)

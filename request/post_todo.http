@@ -2,7 +2,8 @@ POST http://localhost:3001/api/todo HTTP/1.1
 Content-Type: application/json
 
 {
-  "content": "post with only content"
+  "content": "Mira mamá me estoy convirtiendo en Full Stack developer",
+  "userId": "61500009fba0bb0a87c9b643"
 }
 
 ###
