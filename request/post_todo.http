@@ -3,7 +3,7 @@ Content-Type: application/json
 
 {
   "content": "Mira mamá me estoy convirtiendo en Full Stack developer",
-  "userId": "61500009fba0bb0a87c9b643"
+  "userId": "6151073e6472c706787bc431"
 }
 
 ###
@@ -13,5 +13,6 @@ Content-Type: application/json
 
 {
   "content": "post with content and complete",
-  "complete": true
+  "complete": true,
+  "userId": "6151073e6472c706787bc431"
 }

@@ -30,7 +30,8 @@ test('there first todo is about pets', async () => {
 })
 test('post a todo', async () => {
   const newTodo = {
-    content: 'Salir por unas papas'
+    content: 'Salir por unas papas',
+    userId: '6151073e6472c706787bc431'
   }
   await api
     .post('/api/todo')
