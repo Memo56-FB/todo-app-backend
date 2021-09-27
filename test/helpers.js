@@ -22,9 +22,15 @@ const getAllUsers = async () => {
   return usersDB.map(user => user.toJSON())
 }
 
+const getUser = async () => {
+  const response = await api.get('/api/users')
+  return response.body[0]
+}
+
 module.exports = {
   initialTodos,
   api,
   getAllTodos,
-  getAllUsers
+  getAllUsers,
+  getUser
 }

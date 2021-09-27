@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const { server } = require('../index')
 const { Todo } = require('../models/todoSchema')
-const { initialTodos } = require('./helpers')
+const { initialTodos, getUser } = require('./helpers')
 const { api } = require('./helpers')
 const { getAllTodos } = require('./helpers')
 
@@ -29,9 +29,10 @@ test('there first todo is about pets', async () => {
   expect(body[0].content).toBe('Sacar a pasear a el perro')
 })
 test('post a todo', async () => {
+  const firstUser = await getUser()
   const newTodo = {
     content: 'Salir por unas papas',
-    userId: '6151073e6472c706787bc431'
+    userId: firstUser.id
   }
   await api
     .post('/api/todo')
