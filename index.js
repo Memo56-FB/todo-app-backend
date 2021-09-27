@@ -14,6 +14,7 @@ const errorHandler = require('./middleware/errorHandler')
 
 const { userRouter } = require('./controllers/users')
 const { todoRouter } = require('./controllers/todos')
+const { loginRouter } = require('./controllers/login.js')
 
 http.createServer(app)
 app.use(cors())
@@ -40,6 +41,7 @@ Sentry.init({
 
 app.use('/api/todo', todoRouter)
 app.use('/api/users', userRouter)
+app.use('/api/login', loginRouter)
 
 app.use(Sentry.Handlers.errorHandler())
 app.use(errorHandler)
