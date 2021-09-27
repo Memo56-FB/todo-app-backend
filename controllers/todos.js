@@ -4,7 +4,9 @@ const { User } = require('../models/user')
 
 todoRouter.get('/', async (req, res, next) => {
   try {
-    const todos = await Todo.find({})
+    const todos = await Todo.find({}).populate('user', {
+      todos: 0
+    })
     res.json(todos)
   } catch (error) {
     next(error)
@@ -13,7 +15,9 @@ todoRouter.get('/', async (req, res, next) => {
 todoRouter.get('/:id', async (req, res, next) => {
   try {
     const { id } = req.params
-    const todo = await Todo.findById(id)
+    const todo = await Todo.findById(id).populate('user', {
+      todos: 0
+    })
     res.status(200).send(todo)
   } catch (error) {
     next(error)
