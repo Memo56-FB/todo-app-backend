@@ -65,7 +65,7 @@ todoRouter.delete('/:id', userExtractor, async (req, res, next) => {
     next(error)
   }
 })
-todoRouter.put('/:id', async (req, res, next) => {
+todoRouter.put('/:id', userExtractor, async (req, res, next) => {
   const id = req.params.id
   const body = req.body
   const { content, complete } = body
