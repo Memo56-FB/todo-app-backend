@@ -1,1 +1,2 @@
-DELETE http://localhost:3001/api/todo/:id
+DELETE http://localhost:3001/api/todo/:id HTTP/1.1
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxNTEwNzNlNjQ3MmM3MDY3ODdiYzQzMSIsInVzZXJuYW1lIjoiTWVtbzU2IiwiaWF0IjoxNjMyODQzNDE2fQ.kV0ywveChz_rZ7BBxEA8ryP2GNHeIhF0JOp7BzjCY3M
