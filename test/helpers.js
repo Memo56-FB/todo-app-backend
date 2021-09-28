@@ -27,10 +27,16 @@ const getUser = async () => {
   return response.body[0]
 }
 
+const getToken = async () => {
+  const aut = await api.post('/api/login').send({ username: 'memoRoot', password: 'password' })
+  return aut.body.token
+}
+
 module.exports = {
   initialTodos,
   api,
   getAllTodos,
   getAllUsers,
-  getUser
+  getUser,
+  getToken
 }
