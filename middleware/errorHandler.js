@@ -6,7 +6,9 @@ const errorHandler = (error, request, response, next) => {
   if (error.name === 'CastError') {
     return response.status(400).json({ error: 'malformatted id' })
   } else if (error.errors.username.properties.message.includes('Error, expected `username` to be unique.')) {
-    response.status(400).json({ error: 'Username already taken' })
+    return response.status(400).json({ error: 'Username already taken' })
+  } else if (error.name === 'JsonWebTokenError') {
+    return response.status(400).json({ error: 'invalid token' })
   }
   next(error)
 }
