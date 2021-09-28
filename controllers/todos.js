@@ -1,7 +1,8 @@
 const todoRouter = require('express').Router()
 const { Todo } = require('../models/todoSchema')
 const { User } = require('../models/user')
-const jsonWebToken = require('jsonwebtoken')
+
+const userExtractor = require('../middleware/userExtractor')
 
 require('dotenv').config()
 
@@ -27,25 +28,12 @@ todoRouter.get('/:id', async (req, res, next) => {
   }
 })
 
-todoRouter.post('/', async (req, res, next) => {
+todoRouter.post('/', userExtractor, async (req, res, next) => {
   try {
     const { body } = req
     const { content, complete } = body
 
-    const authorization = req.get('authorization')
-    let token = null
-    if (authorization && authorization.toLocaleLowerCase().startsWith('bearer')) {
-      token = authorization.substring(7)
-    }
-
-    const decodedToken = jsonWebToken.verify(token, process.env.SECRET)
-
-    if (!token || !decodedToken.id) {
-      return res.status(401).json({ error: 'token missing or invalid' })
-    }
-
-    const userId = decodedToken.id
-
+    const { userId } = req
     const user = await User.findById(userId)
     if (!body || !content) {
       res.status(400).json({ error: 'content missing' })
@@ -68,7 +56,7 @@ todoRouter.post('/', async (req, res, next) => {
   }
 })
 
-todoRouter.delete('/:id', async (req, res, next) => {
+todoRouter.delete('/:id', userExtractor, async (req, res, next) => {
   try {
     const { id } = req.params
     await Todo.findByIdAndRemove(id)
