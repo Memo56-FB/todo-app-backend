@@ -1,4 +1,4 @@
-# Backend for application To-dos
+# Backend for To-dos application
 ## Endpoints
 ### To-dos
 - GET: https://guillermo-todo-api.herokuapp.com/api/todo
