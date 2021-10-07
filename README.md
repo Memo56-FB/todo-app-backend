@@ -8,6 +8,6 @@
 ### Users
 - GET: https://guillermo-todo-api.herokuapp.com/api/users
 - POST: https://guillermo-todo-api.herokuapp.com/api/users
-- DELETE: https://guillermo-todo-api.herokuapp.com/api/users/
+- DELETE: https://guillermo-todo-api.herokuapp.com/api/users/:id
 ### Login
 - POST:  https://guillermo-todo-api.herokuapp.com/api/login
